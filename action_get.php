@@ -14,6 +14,9 @@
 
 
 <html>
+  <!-- Mobile friendly -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <body>
   <font color="red"> Movie name: </font><?php echo $_GET["file"]; ?><br>
   <font color="blue">Downloading from: </font><?php echo $_GET["link"]; ?> <br><br>
