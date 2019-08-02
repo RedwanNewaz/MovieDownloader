@@ -35,11 +35,14 @@ class ProcessMonitor(object):
         return result
 
     def sanity_check(self, pid):
+        #TODO - regorious sanity check 
         return not self.is_alive(pid)
+    def kill_process(self, pid):
+        pass
 
 
 def thread_function(program):
-    logging.debug('downloading  attempted')
+    # logging.debug('downloading  attempted')
     try:
         logging.debug('downloading from  {} ....'.format(program.url))   
         file = program.file
@@ -53,7 +56,7 @@ def thread_function(program):
         stdout, stderr = process.communicate()
         logging.debug(stderr)
         logging.debug("download succeed")
-        logging.debug(stdout)
+        # logging.debug(stdout)
         program.update_pid(-1)
     except:
         logging.debug("download failed")
@@ -91,7 +94,7 @@ class ProgramManager(FileManager,ProcessMonitor):
        process = Popen(exe+args, stdout=PIPE, stderr=PIPE)
        stdout, stderr = process.communicate()
        logging.debug(stderr)
-       logging.debug(stdout)
+    #    logging.debug(stdout)
 
 
 
