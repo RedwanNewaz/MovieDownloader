@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- Mobile friendly -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Download button -->
+<style type="text/css">
+input#search
+    {
+      padding: 16px 32px;
+      font-size: 16px;
+      margin: 4px 2px;
+      background-color: rgba(80, 43, 180, 0.616);
+      color: white;
+    }
+    input#search:hover
+    {
+      padding: 16px 32px;
+      font-size: 16px;
+      margin: 4px 2px;
+      background-color: #4CAF50;
+      color: white;
+    }
+</style>
+<html>
+  <head>
+    <title>Movie Downloader</title>
+    <script src="//code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        namespace = '/movie';
+        var socket = io(namespace);
+        socket.on('connect', function() {
+                socket.emit('my_event', {data: 'I\'m connected!'});
+            });
+        socket.on('my_response', function(msg, cb) {
+            $('#log').append('<br>' + $('<div/>').text('Received #' + msg.file + ': ' + msg.link).html());
+            if (cb)
+                cb();
+        });
+
+        // Interval function that tests message latency by sending a "ping"
+            // message. The server then responds with a "pong" message and the
+            // round trip time is measured.
+            var ping_pong_times = [];
+            var start_time;
+            window.setInterval(function() {
+                start_time = (new Date).getTime();
+                socket.emit('my_ping');
+            }, 1000);
+
+            // Handler for the "pong" message. When the pong is received, the
+            // time from the ping is stored, and the average of the last 30
+            // samples is average and displayed.
+            socket.on('my_pong', function() {
+                var latency = (new Date).getTime() - start_time;
+                ping_pong_times.push(latency);
+                ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples
+                var sum = 0;
+                for (var i = 0; i < ping_pong_times.length; i++)
+                    sum += ping_pong_times[i];
+                $('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);
+            });
+          // Handlers for the different forms in the page.
+            $('form#emit').submit(function(event) {
+                socket.emit('my_download_event', {file:$('#file').val(),link:$('#link').val()});
+                return false;
+            }); 
+      }); 
+
+    </script>
+  </head>
+</html>
+
+
+<html>
+  <body>
+    <h1>Windows 10 Media Server</h1>
+    <p>Average ping/pong latency: <b><span id="ping-pong"></span>ms</b></p>
+    <form id="emit" method="POST" action='#'>
+      File name: <input type="text" name="file" id="file" size="35"><br> <br>
+      Add Link: <input type="text" name="link" id="link" size="35"><br> <br>
+      <input type="submit" value="Download" id="search" class="search"><br>
+    </form>
+
+    <h2>Receive:</h2>
+    <div id="log"></div>
+    <p>
+    If you hover on Download button, it will be green.
+    </p>
+  </body>
+</html>
