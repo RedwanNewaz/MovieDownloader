@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- Mobile friendly -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Download button -->
+<style type="text/css">
+input#search
+    {
+      padding: 16px 32px;
+      font-size: 16px;
+      margin: 4px 2px;
+      background-color: rgba(80, 43, 180, 0.616);
+      color: white;
+    }
+    input#search:hover
+    {
+      padding: 16px 32px;
+      font-size: 16px;
+      margin: 4px 2px;
+      background-color: #4CAF50;
+      color: white;
+    }
+</style>
+<html>
+  <head>
+    <title>Movie Downloader</title>
+ 
+<html>
+  <body>
+    <h1>Windows 10 Media Server</h1>
+    <form id="emit" method="POST" action='action'>
+      File name: <input type="text" name="file" id="file" size="35"><br> <br>
+      Add Link: <input type="text" name="link" id="link" size="35"><br> <br>
+      <input type="submit" value="Download" id="search" onclick="alert('Download in Progress !!!')" class="search"><br>
+    </form>
+
+    <h2>Info:</h2>
+    <div id="log"></div>
+    <p>
+    If you hover on Download button, it will be green.
+    </p>
+  </body>
+</html>
