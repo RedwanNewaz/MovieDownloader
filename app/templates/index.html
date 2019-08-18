@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <!-- Mobile friendly -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <!-- Download button -->
 <style type="text/css">
 input#search
@@ -34,10 +33,14 @@ input#search
       <input type="submit" value="Download" id="search" onclick="alert('Download in Progress !!!')" class="search"><br>
     </form>
 
-    <h2>Info:</h2>
-    <div id="log"></div>
-    <p>
-    If you hover on Download button, it will be green.
-    </p>
+
+    <h1>Upload Subtitle/Media</h1>
+    <div id="uploading"></div>
+    <form method=post enctype=multipart/form-data action='upload'>
+      <input type=file name=file id="search">
+      <input type=submit value=Upload id="search" onclick="alert('Upload in Progress !!!')">
+    </form>
+
+
   </body>
 </html>

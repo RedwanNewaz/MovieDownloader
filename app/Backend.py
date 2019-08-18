@@ -1,7 +1,7 @@
 from threading import Thread, active_count
 from app.configs import AXEL, DOWNLOAD_DIR,CONNECTION
 from subprocess import Popen, PIPE
-import time
+import time,os
 from datetime import datetime
 
 class Backend(Thread):
@@ -28,7 +28,7 @@ class Backend(Thread):
             return
 
 
-        # modify here
+        # prepearation for downloading
         url = self.__arg['link'].strip()
         file = DOWNLOAD_DIR.format(self.__arg['file'].strip(), self.__get_extention(url))
         self.__logger(file,url)
@@ -37,15 +37,17 @@ class Backend(Thread):
 
         print('downloading file:={} \n from: {}'.format(file, url))
         print("axel cmd ", exe+args)
-        
 
-        # stdout = Popen(exe+args)
-
+        # start downloading
         process = Popen(exe+args, stdout=PIPE, stderr=PIPE)
         stdout, stderr = process.communicate()
         print(stdout)
         ret = process.wait()
-        print('download finished with {}'.format(ret))
+
         # if downloaded file exist then save log otherwise show download failed
+        if(os.path.exists(self.__request['file'])):
+            print('download finished with {}'.format(ret))
+        else:
+            print("[ERROR] Download Failed !!!!")
   
         
