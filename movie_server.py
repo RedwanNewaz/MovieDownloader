@@ -1,4 +1,4 @@
-from app import app
+from app import app, IP_ADDRESS
 
 if __name__ == "__main__":
-    app.run(debug=True, host='192.168.0.108')
+    app.run(debug=True, host=IP_ADDRESS)
