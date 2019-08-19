@@ -9,14 +9,20 @@ def sanity_check(dir):
 
 
 #read yaml file
-print("config read form [{}]".format(os.getcwd()))
+def get_config_file():
+    path = os.path.abspath(__file__)
+    for _ in range(2):
+        path,_ = os.path.split(path)
+    path = os.path.join(path, "config.yaml")
+    return path
+CONFIG_FILE = get_config_file()
+print("config read form [{}]".format(CONFIG_FILE))
 try:
-    with open("config.yaml", 'r') as file:
+    with open(CONFIG_FILE, 'r') as file:
         data = yaml.safe_load(file)
 except:
-    with open("../config.yaml", 'r') as file:
-        data = yaml.safe_load(file)
-
+    raise ValueError
+ 
 IP_ADDRESS = data['server']['ip']
 PORT = data['server']['port']
 DOWNLOAD_DIR = data['server']['download_folder']
