@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  moviedownloader:
+    build: ./product
+    volumes:
+      - ./product:/usr/src/app
+      - .:/Downloads # same as config/config.json file 
+      - .:/log
+    ports:
+      - 80:80
+  googlehomekodi:
+    image: omertu/googlehomekodi
+    ports:
+      - "8099:8099"
+    environment:
+      - KODI_PROTOCOL=http
+      - KODI_IP=192.168.0.102
+      - KODI_PORT=8080
+      - KODI_USER=kodi
+      - AUTH_TOKEN=MyAuthTokenSharedWith_IFTTT_Applet
+    restart: always
